@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit",
-    "relink": "bash scripts/relink.sh",
-    "verify": "bash scripts/verify.sh"
+    "typecheck": "next typegen && tsc --noEmit",
+    "verify": "bash scripts/verify.sh",
+    "test": "vitest run"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",

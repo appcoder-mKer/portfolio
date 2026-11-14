@@ -5,16 +5,14 @@ Personal engineering portfolio. Next.js 16 · React 19 · Tailwind 4 · Three.js
 ## Develop
 
 ```bash
-npm install && npm run relink   # relink is required on this Mac (see below)
-npm run dev                     # http://localhost:3000
-npm run verify                  # typecheck + lint + test + build in a local-disk mirror
+npm ci
+npm run dev       # http://localhost:3000
+npm run verify    # typegen + typecheck + lint + test + build, same as CI
 ```
 
-### iCloud note
-This working tree lives in an iCloud-synced folder. `node_modules` and `.next` are symlinks to
-`*.nosync` directories so iCloud never evicts them, and the git object store lives outside iCloud
-(`git init --separate-git-dir`). After every `npm install`, run `npm run relink`. Heavy commands
-(`npm run verify`) run in `/private/tmp/portfolio`.
+The working tree lives on local disk (`~/proj/portfolio`). Do not develop from an iCloud-synced
+folder on this Mac: with a nearly full disk, iCloud evicts freshly written source files and reads
+block indefinitely. The git object store is at `~/.gitdirs/portfolio` (see `.git` pointer file).
 
 ## Content
 - `content/site.ts` — bio, experience, socials
