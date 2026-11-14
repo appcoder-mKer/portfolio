@@ -4,6 +4,8 @@ import { Providers } from "@/components/Providers";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { Nav } from "@/components/ui/Nav";
 import { Footer } from "@/components/ui/Footer";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -14,6 +16,25 @@ export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: { default: `${site.name} — ${site.role}`, template: `%s — ${site.name}` },
   description: site.description,
+  openGraph: {
+    type: "website",
+    siteName: site.name,
+    title: `${site.name} — ${site.role}`,
+    description: site.description,
+    url: site.url,
+  },
+  twitter: { card: "summary_large_image" },
+  robots: { index: true, follow: true },
+};
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.name,
+  url: site.url,
+  email: `mailto:${site.email}`,
+  sameAs: site.socials.map((s) => s.href),
+  affiliation: { "@type": "EducationalOrganization", name: "Horace Mann School" },
 };
 
 export const viewport: Viewport = {
@@ -46,6 +67,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <Footer />
           </SmoothScroll>
         </Providers>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
