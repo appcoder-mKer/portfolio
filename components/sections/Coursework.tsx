@@ -11,7 +11,7 @@ export function Coursework() {
   return (
     <section id="coursework" aria-labelledby="coursework-heading">
       <h2 id="coursework-heading" className="mt-[2em] text-2xl">
-        Coursework &amp; Experience
+        Coursework
       </h2>
       <ul className="my-4 flex gap-4 overflow-x-auto">
         {coursework.slice(0, ROW_LIMIT).map((c) => (

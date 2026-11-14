@@ -53,8 +53,22 @@ export type CourseworkEntry = {
 /**
  * Classes, programs and work experience, most relevant first. The first seven appear in the row on
  * the home page; all of them appear on /coursework. While this list is empty the section is hidden.
- *
- * TODO(nakul): add entries, for example:
- *   { name: "AP Physics C", detail: "Horace Mann · 11th grade", note: "Mechanics and E&M." },
+ * Course titles and numbers are from the Horace Mann transcript; grades are deliberately left out.
  */
-export const coursework: CourseworkEntry[] = [];
+export const coursework: CourseworkEntry[] = [
+  { name: "Engineering Seminar", detail: "Horace Mann CMPE 436", note: "Grade 11 · in progress, 2026–27." },
+  { name: "Mechanical Engineering & Automation", detail: "Horace Mann CMPE 326", note: "Grade 10 · 2025–26." },
+  { name: "Introduction to Engineering", detail: "Horace Mann CMPE 215", note: "Grade 9 · 2024–25." },
+  { name: "AP Statistics", detail: "AP exam", note: "Scored a 5." },
+  { name: "AP Computer Science A", detail: "AP exam", note: "Studying for it now." },
+  { name: "Physics", detail: "Horace Mann SCI 311", note: "Grade 11 · in progress, 2026–27." },
+  { name: "Precalculus with Theory", detail: "Horace Mann MATH 410", note: "Grade 11 · in progress, 2026–27." },
+  { name: "Chemistry", detail: "Horace Mann SCI 220", note: "Grade 10 · 2025–26." },
+  { name: "Algebra 2 & Trigonometry", detail: "Horace Mann MATH 221", note: "Grade 10 · 2025–26." },
+  { name: "Biology", detail: "Horace Mann SCI 210", note: "Grade 9 · 2024–25." },
+  { name: "Geometry", detail: "Horace Mann MATH 211", note: "Grade 9 · 2024–25." },
+  { name: "Filmmaking 2: Field & Studio Production", detail: "Horace Mann ARTV 255", note: "Grade 10 · 2025–26." },
+  { name: "Filmmaking 1: Art of Visual Storytelling", detail: "Horace Mann ARTV 215", note: "Grade 9 · 2024–25." },
+  { name: "Film History 1: From Talkies to TikToks", detail: "Horace Mann ARTV 226", note: "Grade 11 · in progress, 2026–27." },
+  { name: "Public Speech & Communication", detail: "Horace Mann ARTD 235", note: "Grade 11 · in progress, 2026–27." },
+];

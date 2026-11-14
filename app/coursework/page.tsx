@@ -4,7 +4,7 @@ import { coursework } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Coursework",
-  description: "Classes, programs and work experience.",
+  description: "Relevant classes at Horace Mann School and AP exams.",
 };
 
 export default function CourseworkPage() {
@@ -13,7 +13,7 @@ export default function CourseworkPage() {
       <Link href="/" className="link-mark text-xs">
         ← Home
       </Link>
-      <h1 className="mt-6 text-[2em] leading-tight">Coursework &amp; Experience</h1>
+      <h1 className="mt-6 text-[2em] leading-tight">Coursework</h1>
       {coursework.length === 0 ? (
         <p className="mt-4">Nothing listed yet — check back soon.</p>
       ) : (
