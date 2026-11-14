@@ -10,28 +10,12 @@ export function Nav() {
           {site.shortName}
           <span className="text-accent">.</span>
         </Link>
-
         <ul className="flex items-center gap-1 sm:gap-2">
           {site.nav.map((item) => (
             <li key={item.href}>
-              {"external" in item && item.external ? (
-                <a
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener"
-                  className="rounded-full px-3 py-1.5 text-sm text-muted transition-colors hover:text-fg"
-                >
-                  {item.label}
-                  <span className="sr-only"> (opens in a new tab)</span>
-                </a>
-              ) : (
-                <Link
-                  href={item.href}
-                  className="rounded-full px-3 py-1.5 text-sm text-muted transition-colors hover:text-fg"
-                >
-                  {item.label}
-                </Link>
-              )}
+              <Link href={item.href} className="rounded-full px-3 py-1.5 text-sm text-muted transition-colors hover:text-fg">
+                {item.label}
+              </Link>
             </li>
           ))}
           <li className="pl-1">

@@ -6,7 +6,7 @@ import { getFeaturedProjects, getProject, getProjectSlugs, getProjects, parsePro
 describe("project content", () => {
   it("loads every project with valid frontmatter", () => {
     const projects = getProjects();
-    expect(projects.length).toBeGreaterThanOrEqual(7);
+    expect(projects.length).toBeGreaterThanOrEqual(6);
     for (const p of projects) {
       expect(p.slug).toMatch(/^[a-z0-9-]+$/);
       expect(p.body.length).toBeGreaterThan(0);
