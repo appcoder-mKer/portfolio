@@ -15,7 +15,9 @@ folder on this Mac: with a nearly full disk, iCloud evicts freshly written sourc
 block indefinitely. The git object store is at `~/.gitdirs/portfolio` (see `.git` pointer file).
 
 ## Content
-- `content/site.ts` — name, blurb, clubs, social links
+- `content/site.ts` — name, blurb, clubs, social links, and the `coursework` list (classes / experience;
+  the section and `/coursework` page stay hidden while it is empty)
+- `public/resume.pdf` — adds a Resume link next to GitHub and LinkedIn once the file exists
 - `public/media/profile.jpg` — your photo for the header (initials are shown until this file exists)
 - `content/projects/*.mdx` — one case study per project (frontmatter validated by `lib/schemas.ts`;
   a bad file fails the build). Cards on the home page and `/work/<slug>` pages render from these.

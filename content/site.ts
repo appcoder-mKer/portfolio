@@ -38,3 +38,23 @@ export const about = {
   ],
   interests: ["photography", "running", "lacrosse", "cello", "cooking"],
 } as const;
+
+export type CourseworkEntry = {
+  /** Class, program or employer, e.g. "AP Physics C". */
+  name: string;
+  /** Second line, e.g. "Horace Mann · 11th grade" or "Internship 2026". */
+  detail: string;
+  /** Optional one-line description shown in small text. */
+  note?: string;
+  /** Optional link; makes the card clickable. */
+  href?: string;
+};
+
+/**
+ * Classes, programs and work experience, most relevant first. The first seven appear in the row on
+ * the home page; all of them appear on /coursework. While this list is empty the section is hidden.
+ *
+ * TODO(nakul): add entries, for example:
+ *   { name: "AP Physics C", detail: "Horace Mann · 11th grade", note: "Mechanics and E&M." },
+ */
+export const coursework: CourseworkEntry[] = [];

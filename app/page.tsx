@@ -3,6 +3,7 @@ import { Gears } from "@/components/hero/Hero";
 import { ProfilePhoto } from "@/components/ui/ProfilePhoto";
 import { SocialLinks } from "@/components/ui/SocialLinks";
 import { Clubs } from "@/components/sections/About";
+import { Coursework } from "@/components/sections/Coursework";
 import { Work } from "@/components/sections/Work";
 
 const [user, domain] = site.email.split("@");
@@ -26,6 +27,7 @@ export default function Home() {
         and {about.interests.at(-1)}, or working on the projects outlined below!
       </p>
       <SocialLinks />
+      <Coursework />
       <Clubs />
       <Work />
     </>
