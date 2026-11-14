@@ -1,0 +1,16 @@
+# mirror .gitignore + machine-specific .nosync dirs (node_modules/.next are symlinks)
+.git
+node_modules
+node_modules.nosync
+*.nosync
+.next
+coverage
+out
+build
+.env*
+!.env.example
+*.pem
+.claude
+.claude-flow
+.swarm
+.agents
