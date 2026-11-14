@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useSyncExternalStore } from "react";
+import { useReducedMotion } from "@/lib/use-reduced-motion";
 import type { HeroColors } from "./HeroCanvas";
 
 const HeroCanvas = dynamic(() => import("./HeroCanvas"), { ssr: false });
@@ -32,15 +33,6 @@ function getColors(): HeroColors {
   return colorCache.colors;
 }
 
-// Reduced motion
-const MQ = "(prefers-reduced-motion: reduce)";
-function subscribeMotion(cb: () => void) {
-  const mq = window.matchMedia(MQ);
-  mq.addEventListener("change", cb);
-  return () => mq.removeEventListener("change", cb);
-}
-const getReducedMotion = () => window.matchMedia(MQ).matches;
-
 // WebGL availability, probed once
 let webgl: boolean | null = null;
 function getWebGL(): boolean {
@@ -58,7 +50,7 @@ function getWebGL(): boolean {
 /** Client island: decides whether to mount the WebGL scene and feeds it theme colours. */
 export function Hero({ children }: { children: React.ReactNode }) {
   const colors = useSyncExternalStore(subscribeTheme, getColors, () => null);
-  const reduced = useSyncExternalStore(subscribeMotion, getReducedMotion, () => false);
+  const reduced = useReducedMotion();
   const ok = useSyncExternalStore(noop, getWebGL, () => false);
 
   return (

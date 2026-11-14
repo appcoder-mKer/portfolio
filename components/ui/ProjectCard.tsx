@@ -5,7 +5,7 @@ import { TagList } from "./Tag";
 
 export function ProjectCard({ project, priority = false }: { project: Project; priority?: boolean }) {
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-colors hover:border-accent/60">
+    <article className="group relative flex w-full flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-colors hover:border-accent/60">
       <div className="relative aspect-[16/10] overflow-hidden bg-grid">
         {project.cover ? (
           <Image

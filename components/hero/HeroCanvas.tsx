@@ -81,7 +81,7 @@ function Train({ colors, animate }: { colors: HeroColors; animate: boolean }) {
   const angle = (i: number) => () => phase[i] + (t.current + scroll.current * 0.0035) * ratio[i];
   const narrow = viewport.width < 5.5;
   const scale = narrow ? 0.55 : 0.82;
-  const offset: [number, number, number] = narrow ? [0.55, 1.75, 0] : [1.15, 0.05, 0];
+  const offset: [number, number, number] = narrow ? [0.55, 1.5, 0] : [1.15, 0.05, 0];
 
   return (
     <group ref={group} position={offset} scale={scale}>

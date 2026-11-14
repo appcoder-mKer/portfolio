@@ -127,3 +127,15 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Lenis: hand scroll smoothing to JS when it is active */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}

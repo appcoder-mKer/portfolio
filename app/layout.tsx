@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Providers } from "@/components/Providers";
+import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { Nav } from "@/components/ui/Nav";
 import { Footer } from "@/components/ui/Footer";
 import { site } from "@/content/site";
@@ -37,11 +38,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         <Providers>
-          <Nav />
-          <main id="main" className="flex-1">
-            {children}
-          </main>
-          <Footer />
+          <SmoothScroll>
+            <Nav />
+            <main id="main" className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </SmoothScroll>
         </Providers>
       </body>
     </html>

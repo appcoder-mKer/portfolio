@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { site } from "@/content/site";
+import { NavLinks } from "./NavLinks";
 import { ThemeToggle } from "./ThemeToggle";
 
 export function Nav() {
@@ -11,13 +12,7 @@ export function Nav() {
           <span className="text-accent">.</span>
         </Link>
         <ul className="flex items-center gap-1 sm:gap-2">
-          {site.nav.map((item) => (
-            <li key={item.href}>
-              <Link href={item.href} className="rounded-full px-3 py-1.5 text-sm text-muted transition-colors hover:text-fg">
-                {item.label}
-              </Link>
-            </li>
-          ))}
+          <NavLinks />
           <li className="pl-1">
             <ThemeToggle />
           </li>

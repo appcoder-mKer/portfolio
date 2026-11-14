@@ -1,11 +1,15 @@
 import { site } from "@/content/site";
 import { CopyEmail } from "@/components/ui/CopyEmail";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Reveal } from "@/components/motion/Reveal";
 
 export function Contact() {
   return (
     <section id="contact" className="container-prose scroll-mt-20 py-24 sm:py-32">
-      <SectionHeading eyebrow="03 — Contact" title="Say hi" />
+      <Reveal>
+        <SectionHeading eyebrow="03 — Contact" title="Say hi" />
+      </Reveal>
+      <Reveal delay={0.1}>
       <div className="mt-10 space-y-6 text-sm text-muted">
         <p className="max-w-sm">{"Robotics, a project you think I'd like, or just to talk shop — my inbox is open."}</p>
         <CopyEmail email={site.email} />
@@ -19,6 +23,7 @@ export function Contact() {
           ))}
         </ul>
       </div>
+      </Reveal>
     </section>
   );
 }
