@@ -2,7 +2,7 @@
 # Full toolchain from a clean build state, mirroring CI: typegen → typecheck → lint → test → build.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-rm -rf .next next-env.d.ts
+rm -rf .next/types .next/dev/types next-env.d.ts   # regenerate types from scratch, like CI, without killing a running dev server
 echo "== typegen";   npx next typegen
 echo "== typecheck"; npx tsc --noEmit
 echo "== lint";      npx eslint .
