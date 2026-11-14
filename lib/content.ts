@@ -5,20 +5,14 @@ import { projectFrontmatterSchema, type ProjectFrontmatter } from "./schemas";
 
 export type Project = ProjectFrontmatter & { slug: string; body: string };
 
-const PROJECTS_DIR = path.join(process.cwd(), "content", "projects");
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-function readProject(file: string, dir = PROJECTS_DIR): Project {
+/** Pure parser: validates the filename and frontmatter of one MDX file. Throws with a readable message. */
+export function parseProject(file: string, raw: string): Project {
   const slug = file.replace(/\.mdx$/, "");
   if (!SLUG_RE.test(slug)) {
     throw new Error(`content/projects/${file}: filename must be a kebab-case slug`);
   }
-  // Production reads use a statically analysable path so Turbopack traces only content/projects.
-  // The injectable `dir` branch exists for tests and is deliberately excluded from tracing.
-  const raw =
-    dir === PROJECTS_DIR
-      ? fs.readFileSync(path.join(process.cwd(), "content", "projects", file), "utf8")
-      : fs.readFileSync(/*turbopackIgnore: true*/ path.join(dir, file), "utf8");
   const { data, content } = matter(raw);
   const parsed = projectFrontmatterSchema.safeParse(data);
   if (!parsed.success) {
@@ -28,14 +22,15 @@ function readProject(file: string, dir = PROJECTS_DIR): Project {
   return { ...parsed.data, slug, body: content.trim() };
 }
 
+// Paths below are written out literally so Turbopack traces only content/projects into the server bundle.
+function readProject(file: string): Project {
+  return parseProject(file, fs.readFileSync(path.join(process.cwd(), "content", "projects", file), "utf8"));
+}
+
 /** All projects, featured first, then by explicit order, then newest year. */
-export function getProjects(dir = PROJECTS_DIR): Project[] {
-  const files = (
-    dir === PROJECTS_DIR
-      ? fs.readdirSync(path.join(process.cwd(), "content", "projects"))
-      : fs.readdirSync(/*turbopackIgnore: true*/ dir)
-  ).filter((f) => f.endsWith(".mdx"));
-  return files.map((f) => readProject(f, dir)).sort((a, b) => {
+export function getProjects(): Project[] {
+  const files = fs.readdirSync(path.join(process.cwd(), "content", "projects")).filter((f) => f.endsWith(".mdx"));
+  return files.map(readProject).sort((a, b) => {
     if (a.featured !== b.featured) return a.featured ? -1 : 1;
     if (a.order !== b.order) return a.order - b.order;
     return b.year - a.year;

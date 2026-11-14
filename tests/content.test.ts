@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import path from "node:path";
-import { getFeaturedProjects, getProject, getProjectSlugs, getProjects } from "@/lib/content";
+import fs from "node:fs";
+import { getFeaturedProjects, getProject, getProjectSlugs, getProjects, parseProject } from "@/lib/content";
 
 describe("project content", () => {
   it("loads every project with valid frontmatter", () => {
@@ -32,13 +33,15 @@ describe("project content", () => {
 });
 
 describe("content validation failures", () => {
+  const fixture = (name: string) => fs.readFileSync(path.join(__dirname, "fixtures", name), "utf8");
+
   it("throws a readable error naming the file and the bad fields", () => {
-    expect(() => getProjects(path.join(__dirname, "fixtures", "bad-projects"))).toThrow(
+    expect(() => parseProject("missing-title.mdx", fixture("bad-projects/missing-title.mdx"))).toThrow(
       /missing-title\.mdx: invalid frontmatter[\s\S]*title[\s\S]*bogus/,
     );
   });
 
   it("rejects filenames that are not kebab-case slugs", () => {
-    expect(() => getProjects(path.join(__dirname, "fixtures", "bad-slug"))).toThrow(/kebab-case slug/);
+    expect(() => parseProject("Not_A_Slug.mdx", fixture("bad-slug/Not_A_Slug.mdx"))).toThrow(/kebab-case slug/);
   });
 });
