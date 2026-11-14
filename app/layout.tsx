@@ -1,25 +1,26 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 import { Providers } from "@/components/Providers";
-import { SmoothScroll } from "@/components/motion/SmoothScroll";
-import { Nav } from "@/components/ui/Nav";
 import { Footer } from "@/components/ui/Footer";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { site } from "@/content/site";
 import "./globals.css";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const openSans = Open_Sans({
+  variable: "--font-open-sans",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
+});
 
 export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
-  title: { default: `${site.name} — ${site.role}`, template: `%s — ${site.name}` },
+  metadataBase: new URL(site.origin),
+  title: { default: `Portfolio / ${site.name}`, template: `%s / ${site.name}` },
   description: site.description,
   openGraph: {
     type: "website",
     siteName: site.name,
-    title: `${site.name} — ${site.role}`,
+    title: `Portfolio / ${site.name}`,
     description: site.description,
     url: site.url,
   },
@@ -39,37 +40,31 @@ const personJsonLd = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#0b0c0e" },
-    { media: "(prefers-color-scheme: light)", color: "#fafaf9" },
+    { media: "(prefers-color-scheme: dark)", color: "#111111" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
   ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="flex min-h-full flex-col">
+    <html lang="en" suppressHydrationWarning className={`${openSans.variable} h-full`}>
+      <body className="min-h-full">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-accent focus:px-3 focus:py-2 focus:text-bg"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-[5px] focus:bg-fg focus:px-3 focus:py-2 focus:text-bg"
         >
           Skip to content
         </a>
         <Providers>
-          <SmoothScroll>
-            <Nav />
-            <main id="main" className="flex-1">
-              {children}
-            </main>
+          <div className="page relative">
+            <div className="absolute top-3 right-5">
+              <ThemeToggle />
+            </div>
+            <main id="main">{children}</main>
             <Footer />
-          </SmoothScroll>
+          </div>
         </Providers>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
-        <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   );

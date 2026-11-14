@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { mdxComponents } from "@/components/mdx/components";
-import { TagList } from "@/components/ui/Tag";
 import { getProject, getProjectSlugs } from "@/lib/content";
 
 export function generateStaticParams() {
@@ -25,34 +24,32 @@ export default async function ProjectPage({ params }: PageProps<"/work/[slug]">)
   const links = Object.entries(project.links) as [string, string][];
 
   return (
-    <article className="container-prose py-16 sm:py-24">
-      <Link href="/#work" className="link-underline font-mono text-xs text-muted hover:text-fg">
+    <article>
+      <Link href="/" className="link-mark text-xs">
         ← All projects
       </Link>
 
-      <header className="mt-10 max-w-3xl">
-        <p className="label-mono">
-          {project.year} · {project.role}
+      <header className="mt-6">
+        <h1 className="text-[2em] leading-tight">{project.title}</h1>
+        <p>
+          {project.role} · {project.year}
         </p>
-        <h1 className="mt-4 text-3xl font-medium leading-[1.05] tracking-[-0.03em]">{project.title}</h1>
-        <p className="mt-6 text-lg text-muted">{project.summary}</p>
-        <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
-          <TagList tags={project.tags} />
-          {links.length > 0 ? (
-            <ul className="flex gap-4 font-mono text-xs">
-              {links.map(([kind, href]) => (
-                <li key={kind}>
-                  <a href={href} target="_blank" rel="noopener" className="link-underline text-fg">
-                    {kind === "repo" ? "Source ↗" : kind === "live" ? "Live ↗" : "Write-up ↗"}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
+        <p className="mt-4">{project.summary}</p>
+        <p className="subtitle mt-4 text-center">{project.tags.join(" · ")}</p>
+        {links.length > 0 ? (
+          <ul className="subtitle mt-1 flex justify-center gap-4">
+            {links.map(([kind, href]) => (
+              <li key={kind}>
+                <a href={href} target="_blank" rel="noopener" className="hover:underline">
+                  {kind === "repo" ? "Source ↗" : kind === "live" ? "Live ↗" : "Write-up ↗"}
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </header>
 
-      <div className="mt-14 max-w-prose text-[1.0625rem]">
+      <div>
         <MDXRemote source={project.body} components={mdxComponents} />
       </div>
     </article>

@@ -1,6 +1,6 @@
 # nakul sethi — portfolio
 
-Personal projects site. Next.js 16 · React 19 · Tailwind 4 · Three.js (R3F) hero · Motion + Lenis · deployed on Vercel.
+Personal projects site. Next.js 16 · React 19 · Tailwind 4 · Three.js (R3F) hero · static export · deployed on GitHub Pages.
 
 ## Develop
 
@@ -15,10 +15,12 @@ folder on this Mac: with a nearly full disk, iCloud evicts freshly written sourc
 block indefinitely. The git object store is at `~/.gitdirs/portfolio` (see `.git` pointer file).
 
 ## Content
-- `content/site.ts` — name, blurb, clubs, nav, social links
+- `content/site.ts` — name, blurb, clubs, social links
+- `public/media/profile.jpg` — your photo for the header (initials are shown until this file exists)
 - `content/projects/*.mdx` — one case study per project (frontmatter validated by `lib/schemas.ts`;
   a bad file fails the build). Cards on the home page and `/work/<slug>` pages render from these.
 - Optional `cover: /media/projects/<slug>/cover.jpg` in frontmatter once you add an image under `public/`.
 
 ## Deploy
-Push to `main`. Vercel's git integration builds it (do not use `vercel --prod`; see `vercel.json`).
+Push to `main`. GitHub Actions (`.github/workflows/ci.yml`) runs the checks, builds the static export
+(`out/`) and publishes it to GitHub Pages at https://nakulsethi.github.io.

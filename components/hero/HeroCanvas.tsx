@@ -3,7 +3,7 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-import { gearGeometry, gearTrain, type GearSpec } from "./gear";
+import { gearGeometry, gearTrain, pitchRadius, type GearSpec } from "./gear";
 
 export type HeroColors = { fg: string; accent: string; muted: string };
 
@@ -13,6 +13,8 @@ const SPECS: GearSpec[] = [
   { teeth: 22, module: 0.1, depth: 0.22, lighteningHoles: 4 },
 ];
 const ANGLES = [0, 0.35, -0.9];
+/** Fraction of the canvas the flat train may fill; the rest is headroom for the tilt. */
+const FIT = 0.9;
 
 const pointer = new THREE.Vector2(0, 0);
 
@@ -79,23 +81,36 @@ function Train({ colors, animate }: { colors: HeroColors; animate: boolean }) {
   });
 
   const angle = (i: number) => () => phase[i] + (t.current + scroll.current * 0.0035) * ratio[i];
-  const narrow = viewport.width < 5.5;
-  const scale = narrow ? 0.55 : 0.82;
-  const offset: [number, number, number] = narrow ? [0.55, 1.5, 0] : [1.15, 0.05, 0];
+
+  // Centre the train on its bounding box and scale it to fill the canvas, whatever its size.
+  const { mid, scale } = useMemo(() => {
+    const box = new THREE.Box2();
+    centers.forEach((c, i) => {
+      const r = pitchRadius(SPECS[i]) + SPECS[i].module;
+      box.expandByPoint(new THREE.Vector2(c.x - r, c.y - r)).expandByPoint(new THREE.Vector2(c.x + r, c.y + r));
+    });
+    const size = box.getSize(new THREE.Vector2());
+    return {
+      mid: box.getCenter(new THREE.Vector2()),
+      scale: Math.min(viewport.width / size.x, viewport.height / size.y) * FIT,
+    };
+  }, [centers, viewport.width, viewport.height]);
 
   return (
-    <group ref={group} position={offset} scale={scale}>
-      {SPECS.map((spec, i) => (
-        <Gear
-          key={spec.teeth}
-          spec={spec}
-          color={i === 1 ? colors.accent : colors.fg}
-          fill={colors.fg}
-          opacity={i === 1 ? 0.9 : 0.42}
-          position={[centers[i].x, centers[i].y, 0]}
-          getAngle={angle(i)}
-        />
-      ))}
+    <group ref={group} scale={scale}>
+      <group position={[-mid.x, -mid.y, 0]}>
+        {SPECS.map((spec, i) => (
+          <Gear
+            key={spec.teeth}
+            spec={spec}
+            color={i === 1 ? colors.accent : colors.fg}
+            fill={colors.fg}
+            opacity={i === 1 ? 1 : 0.6}
+            position={[centers[i].x, centers[i].y, 0]}
+            getAngle={angle(i)}
+          />
+        ))}
+      </group>
     </group>
   );
 }

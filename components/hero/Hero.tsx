@@ -47,22 +47,15 @@ function getWebGL(): boolean {
   return webgl;
 }
 
-/** Client island: decides whether to mount the WebGL scene and feeds it theme colours. */
-export function Hero({ children }: { children: React.ReactNode }) {
+/** Client island: the gear train beside the name. Mounts the WebGL scene only when it can render. */
+export function Gears() {
   const colors = useSyncExternalStore(subscribeTheme, getColors, () => null);
   const reduced = useReducedMotion();
   const ok = useSyncExternalStore(noop, getWebGL, () => false);
 
   return (
-    <section id="hero" className="relative overflow-hidden">
-      <div
-        className="bg-grid absolute inset-0 [mask-image:radial-gradient(70%_60%_at_60%_40%,black,transparent)]"
-        aria-hidden="true"
-      />
+    <div className="relative h-[110px] w-full sm:h-[150px] sm:w-[260px] sm:shrink-0" aria-hidden="true">
       {ok && colors ? <HeroCanvas colors={colors} animate={!reduced} /> : null}
-      <div className="container-prose relative flex min-h-[calc(100svh-4rem)] flex-col justify-center py-24">
-        {children}
-      </div>
-    </section>
+    </div>
   );
 }

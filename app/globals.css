@@ -5,58 +5,38 @@
 /* ── Design tokens ──────────────────────────────────────────────────────── */
 :root {
   color-scheme: light;
-  --bg: #fafaf9;
-  --surface: #ffffff;
-  --fg: #161616;
-  --muted: #6b6b66;
-  --border: rgb(0 0 0 / 0.09);
-  --accent: #c2410c;        /* burnt amber: 5.9:1 on --bg */
-  --accent-soft: rgb(194 65 12 / 0.12);
-  --grid: rgb(0 0 0 / 0.045);
+  --bg: #ffffff;
+  --fg: #000000;
+  --muted: #707070;          /* 4.9:1 on --bg */
+  --border: rgb(225 225 225);
+  --highlight: #ffd500;      /* marker swipe behind hovered links */
+  --accent: #d19a00;         /* gear highlight line */
 }
 
 .dark {
   color-scheme: dark;
-  --bg: #0b0c0e;
-  --surface: #121417;
-  --fg: #e6e6e3;
-  --muted: #9a9a94;
-  --border: rgb(255 255 255 / 0.09);
-  --accent: #ffb02e;        /* signal amber: 11:1 on --bg */
-  --accent-soft: rgb(255 176 46 / 0.14);
-  --grid: rgb(255 255 255 / 0.05);
+  --bg: #111111;
+  --fg: #ededed;
+  --muted: #a0a0a0;
+  --border: rgb(60 60 60);
+  --highlight: #ffd500;
+  --accent: #ffd500;
 }
 
 @theme inline {
   --color-bg: var(--bg);
-  --color-surface: var(--surface);
   --color-fg: var(--fg);
   --color-muted: var(--muted);
   --color-border: var(--border);
+  --color-highlight: var(--highlight);
   --color-accent: var(--accent);
-  --color-accent-soft: var(--accent-soft);
-  --color-grid: var(--grid);
 
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
-
-  /* modular scale 1.25 on a fluid base */
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem);
-  --text-lg: 1.25rem;
-  --text-xl: 1.5625rem;
-  --text-2xl: clamp(1.75rem, 1.4rem + 1.5vw, 2.4rem);
-  --text-3xl: clamp(2.25rem, 1.6rem + 3vw, 3.75rem);
-  --text-4xl: clamp(2.75rem, 1.8rem + 5vw, 5.5rem);
-
-  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --font-sans: var(--font-open-sans), "Open Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: Helvetica, Arial, sans-serif;
 }
 
 /* ── Base ───────────────────────────────────────────────────────────────── */
 html {
-  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -64,61 +44,79 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-sans);
-  font-size: var(--text-base);
-  line-height: 1.6;
-  font-feature-settings: "ss01", "cv11";
-  text-rendering: optimizeLegibility;
+  font-size: 16px;
+  line-height: 1.4;
 }
 
-::selection {
-  background: var(--accent);
-  color: var(--bg);
+h1,
+h2 {
+  font-family: var(--font-heading);
+  font-weight: 700;
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
   border-radius: 2px;
 }
 
 /* ── Utilities ──────────────────────────────────────────────────────────── */
-@utility container-prose {
+/* Page column: 40px top/bottom, 20px gutters, capped where the reference's 200px side margins land. */
+@utility page {
   width: 100%;
-  max-width: 72rem;
+  max-width: calc(60rem + 40px);
   margin-inline: auto;
-  padding-inline: clamp(1rem, 4vw, 2.5rem);
+  padding: 40px 20px;
+  @media (max-width: 900px) {
+    padding-block: 20px;
+  }
 }
 
-@utility label-mono {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+/* Underlined link that gets a tilted yellow marker swipe on hover. */
+@utility link-mark {
+  position: relative;
+  z-index: 0;
+  color: currentColor;
+  text-decoration: underline;
+  &::before {
+    content: "";
+    position: absolute;
+    left: -2px;
+    bottom: 0;
+    z-index: -1;
+    width: calc(100% + 4px);
+    height: 80%;
+    transform: rotate(-2deg);
+    background-color: transparent;
+  }
+  &:hover,
+  &:focus-visible,
+  .group:hover & {
+    &::before {
+      background-color: var(--highlight);
+    }
+  }
+  .dark &:hover,
+  .dark &:focus-visible,
+  .dark .group:hover & {
+    color: #000000;
+  }
+}
+
+/* Thin-bordered card. */
+@utility box {
+  border: 0.5px solid var(--border);
+  border-radius: 5px;
+  padding: 1em;
+}
+
+@utility subtitle {
+  font-size: 0.9em;
+  font-weight: 700;
   color: var(--muted);
 }
 
-@utility bg-grid {
-  background-image:
-    linear-gradient(to right, var(--grid) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
-
-@utility link-underline {
-  text-decoration: underline;
-  text-decoration-color: var(--border);
-  text-underline-offset: 0.2em;
-  text-decoration-thickness: 1px;
-  transition: text-decoration-color 200ms var(--ease-out-quart);
-  &:hover {
-    text-decoration-color: var(--accent);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
   *,
   *::before,
   *::after {
@@ -126,16 +124,4 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-}
-
-/* Lenis: hand scroll smoothing to JS when it is active */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-stopped {
-  overflow: hidden;
 }

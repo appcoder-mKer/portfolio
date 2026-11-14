@@ -1,39 +1,27 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/lib/content";
-import { TagList } from "./Tag";
+import { asset } from "@/lib/asset";
 
-export function ProjectCard({ project, priority = false }: { project: Project; priority?: boolean }) {
+export function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="group relative flex w-full flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-colors hover:border-accent/60">
-      <div className="relative aspect-[16/10] overflow-hidden bg-grid">
-        {project.cover ? (
-          <Image
-            src={project.cover}
-            alt={project.coverAlt ?? project.title}
-            fill
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            priority={priority}
-            className="object-cover transition-transform duration-700 ease-out-expo group-hover:scale-[1.03]"
-          />
-        ) : (
-          <div className="absolute inset-0 grid place-items-center">
-            <span className="label-mono">{project.year}</span>
-          </div>
-        )}
-      </div>
-      <div className="flex flex-1 flex-col gap-4 p-5 sm:p-6">
-        <div className="flex items-baseline justify-between gap-4">
-          <h3 className="text-lg font-medium tracking-tight">
-            <Link href={`/work/${project.slug}`} className="after:absolute after:inset-0">
-              {project.title}
-            </Link>
-          </h3>
-          <span className="font-mono text-xs text-muted">{project.year}</span>
-        </div>
-        <p className="text-sm text-muted">{project.summary}</p>
-        <TagList tags={project.tags} className="mt-auto" />
-      </div>
-    </article>
+    <Link
+      href={`/work/${project.slug}`}
+      className="group box block h-full transition-shadow duration-150 ease-out hover:shadow-[0_0_2.5px_var(--highlight)]"
+    >
+      <h3 className="text-[1.17em] font-bold">{project.title}</h3>
+      <p>{project.tags.slice(0, 3).join(" · ")}</p>
+      {project.cover ? (
+        // eslint-disable-next-line @next/next/no-img-element -- static export: no image optimizer to route through
+        <img
+          src={asset(project.cover)}
+          alt={project.coverAlt ?? project.title}
+          loading="lazy"
+          className="mx-auto mt-4 block max-h-[50vh] w-3/4 object-contain p-[5px]"
+        />
+      ) : null}
+      <p className="mt-3 text-xs">
+        {project.summary} <span className="link-mark">Learn More...</span>
+      </p>
+    </Link>
   );
 }

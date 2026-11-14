@@ -1,45 +1,39 @@
 import { about } from "@/content/site";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Reveal } from "@/components/motion/Reveal";
 
-export function About() {
+/** Horizontally scrolling row of small square cards, one per club. */
+export function Clubs() {
   return (
-    <section id="about" className="container-prose scroll-mt-20 py-24 sm:py-32">
-      <Reveal>
-        <SectionHeading eyebrow="02 — About" title="A little about me" />
-      </Reveal>
-      <Reveal delay={0.1}>
-      <div className="mt-10 grid gap-12 lg:grid-cols-[1fr_18rem]">
-        <div className="space-y-5 text-[1.0625rem] leading-relaxed text-fg/90">
-          {about.blurb.map((p) => (
-            <p key={p.slice(0, 24)}>{p}</p>
-          ))}
-        </div>
-        <dl className="space-y-6 text-sm">
-          <div>
-            <dt className="label-mono">Clubs</dt>
-            <dd className="mt-2 space-y-1.5">
-              {about.clubs.map((c) => (
-                <div key={c.name}>
-                  {"href" in c ? (
-                    <a href={c.href} target="_blank" rel="noopener" className="link-underline">
-                      {c.name}
-                    </a>
-                  ) : (
-                    c.name
-                  )}
-                  <span className="text-muted"> · {c.role}</span>
-                </div>
-              ))}
-            </dd>
-          </div>
-          <div>
-            <dt className="label-mono">Off the clock</dt>
-            <dd className="mt-2 text-muted">{about.interests.join(" · ")}</dd>
-          </div>
-        </dl>
-      </div>
-      </Reveal>
+    <section id="clubs" aria-labelledby="clubs-heading">
+      <h2 id="clubs-heading" className="mt-[2em] text-2xl">
+        Clubs
+      </h2>
+      <ul className="my-4 flex gap-4 overflow-x-auto">
+        {about.clubs.map((c) => {
+          const body = (
+            <>
+              <h3 className={`font-bold ${c.name.length > 16 ? "text-[0.9em]" : "text-[1.17em]"}`}>{c.name}</h3>
+              <p>{c.role}</p>
+              {"note" in c ? <p className="mt-3 text-xs">{c.note}</p> : null}
+            </>
+          );
+          return (
+            <li key={c.name} className="shrink-0">
+              {"href" in c ? (
+                <a
+                  href={c.href}
+                  target="_blank"
+                  rel="noopener"
+                  className="box block h-full min-h-[150px] w-[150px] transition-shadow duration-150 ease-out hover:shadow-[0_0_2.5px_var(--highlight)]"
+                >
+                  {body}
+                </a>
+              ) : (
+                <div className="box h-full min-h-[150px] w-[150px]">{body}</div>
+              )}
+            </li>
+          );
+        })}
+      </ul>
     </section>
   );
 }

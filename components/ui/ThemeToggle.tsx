@@ -9,14 +9,14 @@ const subscribe = () => () => {};
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
   const mounted = useSyncExternalStore(subscribe, () => true, () => false);
-  const isDark = mounted ? resolvedTheme === "dark" : true;
+  const isDark = mounted ? resolvedTheme === "dark" : false;
 
   return (
     <button
       type="button"
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="relative grid size-9 place-items-center rounded-full border border-border text-muted transition-colors hover:border-accent hover:text-fg"
+      className="grid size-8 place-items-center rounded-[5px] border-[0.5px] border-border text-muted transition-colors hover:text-fg"
     >
       <svg
         aria-hidden="true"
