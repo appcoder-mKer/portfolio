@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { site } from "@/content/site";
+import { coursework, site } from "@/content/site";
 import { getProjects } from "@/lib/content";
 
 export const dynamic = "force-static";
@@ -11,5 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "yearly" as const,
     priority: p.featured ? 0.8 : 0.6,
   }));
-  return [{ url: `${site.url}/`, changeFrequency: "monthly", priority: 1 }, ...projects];
+  // /coursework only says "nothing yet" while the list is empty, so it stays out until it has entries.
+  const pages = coursework.length > 0 ? [{ url: `${site.url}/coursework/`, changeFrequency: "yearly" as const, priority: 0.5 }] : [];
+  return [{ url: `${site.url}/`, changeFrequency: "monthly", priority: 1 }, ...pages, ...projects];
 }

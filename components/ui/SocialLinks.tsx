@@ -14,15 +14,20 @@ const ICONS: Record<string, string> = {
     "M3 5.5A1.5 1.5 0 0 1 4.5 4h15A1.5 1.5 0 0 1 21 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5v-13Zm2.3.5 6.7 5.6L18.7 6H5.3ZM19 7.9l-7 5.85L5 7.9V18h14V7.9Z",
 };
 
+type ProfileLink = { label: string; href: string; download?: string };
+
 /**
- * Centred grey row of profile links under the blurb: GitHub, LinkedIn, Resume.
- * The Resume link needs public/resume.pdf; until that file exists an Email link takes its place.
+ * Centred grey row of profile links under the blurb: GitHub, LinkedIn, Email, Resume.
+ * Resume is a direct download of public/resume.pdf and is left out until that file exists.
  */
 export function SocialLinks() {
   const hasResume = fs.existsSync(path.join(process.cwd(), "public", "resume.pdf"));
-  const links = [
+  const links: ProfileLink[] = [
     ...site.socials,
-    hasResume ? { label: "Resume", href: asset("/resume.pdf") } : { label: "Email", href: `mailto:${site.email}` },
+    { label: "Email", href: `mailto:${site.email}` },
+    ...(hasResume
+      ? [{ label: "Resume", href: asset("/resume.pdf"), download: `${site.name.replaceAll(" ", "-")}-Resume.pdf` }]
+      : []),
   ];
   return (
     <ul className="subtitle my-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
@@ -30,7 +35,8 @@ export function SocialLinks() {
         <li key={l.href}>
           <a
             href={l.href}
-            target={l.href.startsWith("mailto:") ? undefined : "_blank"}
+            download={l.download}
+            target={l.href.startsWith("http") ? "_blank" : undefined}
             rel="noopener"
             className="inline-flex items-center gap-1 hover:underline"
           >

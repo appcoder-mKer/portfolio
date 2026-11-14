@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Open_Sans } from "next/font/google";
 import { Providers } from "@/components/Providers";
 import { Footer } from "@/components/ui/Footer";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { IndexBar } from "@/components/ui/IndexBar";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -56,10 +56,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         <Providers>
-          <div className="page relative">
-            <div className="absolute top-3 right-5">
-              <ThemeToggle />
-            </div>
+          <div className="page">
+            <IndexBar />
             <main id="main">{children}</main>
             <Footer />
           </div>
