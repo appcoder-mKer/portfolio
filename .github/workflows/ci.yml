@@ -16,6 +16,5 @@ jobs:
       - run: npx next typegen
       - run: npx tsc --noEmit
       - run: npx eslint .
-      - run: npx vitest run --passWithNoTests
-        if: hashFiles('vitest.config.ts') != ''
+      - run: npx vitest run
       - run: npx next build
