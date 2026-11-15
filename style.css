@@ -1,0 +1,500 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   style.css — every page uses this one file.
+
+   QUICK EDITS
+   • Colours ........ section 1 (light theme) and section 2 (dark theme)
+   • Fonts .......... section 1 (--font-body, --font-heading)
+   • Page width ..... section 1 (--page-width)
+   Everything below section 2 is layout; you rarely need to touch it.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Settings: light theme ───────────────────────────────────────────── */
+:root {
+  color-scheme: light;
+  --bg: #ffffff;              /* page background */
+  --fg: #000000;              /* text */
+  --muted: #707070;           /* grey text: nav, link row, footer */
+  --border: rgb(225 225 225); /* thin box outlines */
+  --highlight: #ffd500;       /* yellow marker behind hovered links */
+  --accent: #d19a00;          /* the small highlighted gear */
+
+  --font-body: "Open Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: Helvetica, Arial, sans-serif;
+  --page-width: 60rem;
+}
+
+/* ── 2. Settings: dark theme (the moon button adds class="dark" to <html>) ─ */
+.dark {
+  color-scheme: dark;
+  --bg: #111111;
+  --fg: #ededed;
+  --muted: #a0a0a0;
+  --border: rgb(60 60 60);
+  --highlight: #ffd500;
+  --accent: #ffd500;
+}
+
+/* ── 3. Reset ───────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 3rem; /* keeps section headings clear of the sticky nav */
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+h1,
+h2 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 2em;
+  line-height: 1.25;
+}
+
+h2 {
+  margin-top: 2em;
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+h3 {
+  font-size: 1.17em;
+  font-weight: 700;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── 4. Page frame ──────────────────────────────────────────────────────── */
+.page {
+  width: 100%;
+  max-width: calc(var(--page-width) + 40px);
+  margin-inline: auto;
+  padding: 40px 20px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 50;
+  padding: 8px 12px;
+  border-radius: 5px;
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.skip-link:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ── 5. Sticky nav at the top of every page ─────────────────────────────── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-inline: -20px;
+  padding: 0.5rem 20px;
+  border-bottom: 0.5px solid var(--border);
+  background: var(--bg);
+}
+
+.nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 1rem;
+  margin-right: auto;
+}
+
+.nav a:hover,
+.links a:hover {
+  text-decoration: underline;
+}
+
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0.5px solid var(--border);
+  border-radius: 5px;
+  color: var(--muted);
+  transition: color 150ms;
+}
+
+.theme-toggle:hover {
+  color: var(--fg);
+}
+
+.theme-toggle svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Moon shows in the light theme, sun in the dark theme. */
+.theme-toggle .icon-sun,
+.dark .theme-toggle .icon-moon {
+  display: none;
+}
+
+.dark .theme-toggle .icon-sun {
+  display: block;
+}
+
+/* ── 6. Home page header: photo, name, gears ────────────────────────────── */
+.intro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-block: 1rem;
+}
+
+.intro-name {
+  margin-right: auto;
+}
+
+.photo {
+  flex-shrink: 0;
+  width: 6em;
+  height: 6em;
+  margin: 1rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Initials shown until there is a real photo. */
+.photo-placeholder {
+  display: grid;
+  place-items: center;
+  border: 0.5px solid var(--border);
+  color: var(--muted);
+  font-family: var(--font-heading);
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.gears {
+  flex-shrink: 0;
+  width: 260px;
+  height: 150px;
+  pointer-events: none;
+}
+
+/* ── 7. Small text styles ───────────────────────────────────────────────── */
+.subtitle {
+  font-size: 0.9em;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.small {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.center {
+  text-align: center;
+}
+
+/* Row of GitHub / LinkedIn / Email links. */
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem 1rem;
+  margin-block: 1rem;
+}
+
+.links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.links svg {
+  width: 1em;
+  height: 1em;
+}
+
+/* Underlined link that gets a tilted yellow marker swipe on hover. */
+.mark {
+  position: relative;
+  z-index: 0;
+  text-decoration: underline;
+}
+
+.mark::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  bottom: 0;
+  z-index: -1;
+  width: calc(100% + 4px);
+  height: 80%;
+  transform: rotate(-2deg);
+  background-color: transparent;
+}
+
+/* Text goes black on the yellow in both themes so it stays readable. */
+.mark:hover,
+.mark:focus-visible,
+a.box:hover .mark {
+  color: #000000;
+}
+
+.mark:hover::before,
+.mark:focus-visible::before,
+a.box:hover .mark::before {
+  background-color: var(--highlight);
+}
+
+/* ── 8. Boxes ───────────────────────────────────────────────────────────── */
+/* Thin-bordered card. */
+.box {
+  display: block;
+  height: 100%;
+  border: 0.5px solid var(--border);
+  border-radius: 5px;
+  padding: 1em;
+}
+
+a.box {
+  transition: box-shadow 150ms ease-out;
+}
+
+a.box:hover {
+  box-shadow: 0 0 2.5px var(--highlight);
+}
+
+.box .small {
+  margin-top: 0.75rem;
+}
+
+/* Cover picture inside a project box. */
+.box img {
+  width: 75%;
+  max-height: 50vh;
+  margin: 1rem auto 0;
+  padding: 5px;
+  object-fit: contain;
+}
+
+/* Sideways-scrolling row of small square boxes (coursework, clubs). */
+.row {
+  display: flex;
+  gap: 1rem;
+  margin-block: 1rem;
+  overflow-x: auto;
+}
+
+.row > li {
+  flex-shrink: 0;
+}
+
+.row .box {
+  width: 150px;
+  min-height: 150px;
+}
+
+/* Add class="long" to an <h3> whose title is too long for a small box. */
+h3.long {
+  font-size: 0.9em;
+}
+
+/* Two-column grid of boxes (projects, the full coursework list). */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-block: 1rem;
+}
+
+/* ── 9. Project and coursework pages (inside <article class="article">) ─── */
+.article h1 {
+  margin-top: 1.5rem;
+}
+
+.article > p,
+.article > ul,
+.article > ol,
+.article > pre,
+.article > blockquote,
+.article > figure {
+  margin-top: 1rem;
+}
+
+/* The "role · year" line sits tight under the title. */
+.article > h1 + p {
+  margin-top: 0;
+}
+
+.article > .links {
+  margin-block: 0.25rem 0;
+}
+
+/* Ordinary bullet and numbered lists in the text. */
+.article > ul:not(.links, .grid),
+.article > ol {
+  padding-left: 2.5rem;
+  list-style: disc;
+}
+
+.article > ol {
+  list-style: decimal;
+}
+
+.article > ul:not(.links, .grid) li + li,
+.article > ol li + li {
+  margin-top: 0.25rem;
+}
+
+.article > h3 {
+  margin-top: 1.5rem;
+}
+
+.article > img,
+.article > figure img {
+  max-height: 50vh;
+  margin-inline: auto;
+}
+
+.article > img {
+  margin-top: 1rem;
+}
+
+.article figcaption {
+  margin-top: 0.25rem;
+  text-align: center;
+  font-size: 0.9em;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.article code {
+  padding-inline: 0.25rem;
+  border: 0.5px solid var(--border);
+  border-radius: 3px;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.9em;
+}
+
+.article pre {
+  padding: 1em;
+  overflow-x: auto;
+  border: 0.5px solid var(--border);
+  border-radius: 5px;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.875rem;
+}
+
+.article pre code {
+  padding: 0;
+  border: 0;
+}
+
+.article blockquote {
+  padding-left: 1rem;
+  border-left: 2px solid var(--highlight);
+  color: var(--muted);
+}
+
+/* ── 10. Footer ─────────────────────────────────────────────────────────── */
+.footer {
+  margin-top: 3rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* ── 11. Phones and narrow windows ──────────────────────────────────────── */
+@media (max-width: 900px) {
+  .page {
+    padding-block: 20px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 639px) {
+  .photo {
+    width: 4.5em;
+    height: 4.5em;
+    margin: 0.5rem;
+  }
+
+  .gears {
+    width: 100%;
+    height: 110px;
+  }
+}
+
+/* ── 12. Respect the "reduce motion" system setting ─────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The list of pages for search engines. Add a <url> line when you add a page. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://nakulsethi.github.io/</loc></url>
+  <url><loc>https://nakulsethi.github.io/coursework.html</loc></url>
+  <url><loc>https://nakulsethi.github.io/work/frc-2026-robot.html</loc></url>
+  <url><loc>https://nakulsethi.github.io/work/5806-scouting-app.html</loc></url>
+  <url><loc>https://nakulsethi.github.io/work/frc-teamboard.html</loc></url>
+  <url><loc>https://nakulsethi.github.io/work/planner.html</loc></url>
+  <url><loc>https://nakulsethi.github.io/work/usaco.html</loc></url>
+  <url><loc>https://nakulsethi.github.io/work/python-games.html</loc></url>
+</urlset>

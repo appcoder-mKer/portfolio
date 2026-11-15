@@ -1,28 +1,54 @@
 # nakul sethi — portfolio
 
-Personal projects site. Next.js 16 · React 19 · Tailwind 4 · Three.js (R3F) hero · static export · deployed on GitHub Pages.
+Plain HTML, CSS and a little JavaScript. No build step, nothing to install: edit a file, save, refresh.
 
-## Develop
+Live at https://nakulsethi.github.io
 
-```bash
-npm ci
-npm run dev       # http://localhost:3000
-npm run verify    # typegen + typecheck + lint + test + build, same as CI
+## Preview
+
+Double-click `index.html` to open it in a browser. Every link works straight from the folder.
+
+## What to edit
+
+| I want to change…                         | Open                          |
+| ----------------------------------------- | ----------------------------- |
+| About-me text, links, clubs, project boxes | `index.html`                  |
+| The full class list                        | `coursework.html` (the first few are also in `index.html`) |
+| A project write-up                         | `work/<project>.html`         |
+| Colours, fonts, page width                 | top of `style.css`            |
+| Gear sizes, speed, tilt                    | top of `gears.js`             |
+| Photos                                     | `media/` (see `media/README.md`) |
+
+Each HTML file has `<!-- comments -->` above every section saying what it is and how to add to it.
+
+### Common jobs
+
+- **Add a project:** copy a file in `work/`, rename it, edit the text. Then copy one project box in
+  `index.html` and point it at the new file. Add the page to `sitemap.xml`.
+- **Add a class or club:** copy one `<li>…</li>` block in the matching section.
+- **Add your photo:** save it as `media/profile.jpg` and follow the PHOTO note in `index.html`.
+- **Update your resume:** replace `resume.pdf` in this folder with the new PDF (keep the name).
+  The Resume link on the home page downloads it.
+- **Change the nav or footer:** they are repeated in every HTML file, so change each one
+  (find-and-replace across the folder is the quick way).
+
+## Files
+
+```
+index.html         home page
+coursework.html    full class list
+work/              one page per project
+404.html           shown for addresses that don't exist
+style.css          all styling
+favicon.ico        the little icon in the browser tab
+resume.pdf         the file the Resume link downloads
+theme.js           dark/light switch
+gears.js           the spinning gears in the header
+media/             pictures
+robots.txt, sitemap.xml   for search engines
 ```
 
-The working tree lives on local disk (`~/proj/portfolio`). Do not develop from an iCloud-synced
-folder on this Mac: with a nearly full disk, iCloud evicts freshly written source files and reads
-block indefinitely. The git object store is at `~/.gitdirs/portfolio` (see `.git` pointer file).
+## Publish
 
-## Content
-- `content/site.ts` — name, blurb, clubs, social links, and the `coursework` list (classes / experience;
-  the section and `/coursework` page stay hidden while it is empty)
-- `public/resume.pdf` — adds a Resume download link next to GitHub, LinkedIn and Email once the file exists
-- `public/media/profile.jpg` — your photo for the header (initials are shown until this file exists)
-- `content/projects/*.mdx` — one case study per project (frontmatter validated by `lib/schemas.ts`;
-  a bad file fails the build). Cards on the home page and `/work/<slug>` pages render from these.
-- Optional `cover: /media/projects/<slug>/cover.jpg` in frontmatter once you add an image under `public/`.
-
-## Deploy
-Push to `main`. GitHub Actions (`.github/workflows/ci.yml`) runs the checks, builds the static export
-(`out/`) and publishes it to GitHub Pages at https://nakulsethi.github.io.
+Push to `main`. GitHub Actions (`.github/workflows/ci.yml`) publishes the folder to GitHub Pages
+as it is.

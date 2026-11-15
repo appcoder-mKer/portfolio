@@ -1,41 +1,4 @@
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-
-# testing
-/coverage
-
-# next.js
-/.next
-/.next/
-/out/
-
-# production
-/build
-
-# misc
 .DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# env files
-.env*
-!.env.example
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
-# iCloud snapshot artefacts (only relevant if a copy ever lives in an iCloud path)
-*.nosync
 
 # agent tooling state
 .claude-flow
